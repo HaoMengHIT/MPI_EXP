@@ -121,9 +121,11 @@ void get_Os()
       cout << "Os" << endl;
    get_Os_print(n, 1, 2, 1);
    get_Os_print(n, 1, 2, 1);
-   get_Os_print(n,1000,20000,1000);
-   get_Os_print(n,20000,100000,2000);
-   get_Os_print(n,100000,1000000,20000);
+   get_Os_print(n, 10, 200, 10);
+   get_Os_print(n, 200, 10000, 100);
+   get_Os_print(n,10000,100000,1000);
+   get_Os_print(n,100000,1000000,10000);
+   get_Os_print(n,1000000,10000000,100000);
 }
 
 void get_Gg()
@@ -132,10 +134,11 @@ void get_Gg()
    if(my_rank == 1)
       cout << "Gg" << endl;
    get_Gg_print(n, 1, 2, 1);
-   get_Gg_print(n, 1, 2, 1);
-   get_Gg_print(n,1000,20000,1000);
-   get_Gg_print(n,20000,100000,2000);
-   get_Gg_print(n,100000,1000000,20000);
+   get_Gg_print(n, 10, 200, 10);
+   get_Gg_print(n, 200, 10000, 100);
+   get_Gg_print(n,10000,100000,1000);
+   get_Gg_print(n,100000,1000000,10000);
+   get_Gg_print(n,1000000,10000000,100000);
 }
 
 int main(int argc, char* argv[])
