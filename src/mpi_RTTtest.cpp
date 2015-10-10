@@ -157,7 +157,7 @@ void get_Gg_print(int ite_num, int n, int start, int end, int stride)
 }
 
 const int pac_num = 10; //The count of packets sent from  client to server.
-const int ite_num = 20; //The count of the test about every data size.
+const int ite_num = 100; //The count of the test about every data size.
 
 void get_Os()
 {
