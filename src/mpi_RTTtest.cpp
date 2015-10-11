@@ -116,16 +116,28 @@ void get_Os_print(int ite_num, int n, int start, int end, int stride)
       {
          PRTTstr* prttn;
          PRTTstr* prtt1;
-         prtt1 = PRTT(1, 0, s);
+         double times[10];
+         for(int k = 0; k < 10; ++k)
+         {
+            prtt1 = PRTT(1, 0, s);
+            if(my_rank == 1)
+            {
+               times[k] = prtt1->time;
+               delete prtt1;
+            }
+         }
+         double prtt1_time;
          if(my_rank == 1)
-            d = 2*prtt1->time+0.0001;
+         {
+            prtt1_time = getMed(times, 10);
+            d = 2*prtt1_time+0.0001;
+         }
          prttn = PRTT(n, d, s); 
          if(my_rank == 1)
          {
-            double oplusd = (double)(prttn->time - prtt1->time)/(n-1);
+            double oplusd = (double)(prttn->time - prtt1_time)/(n-1);
             values[i] = oplusd - d;
             delete prttn;
-            delete prtt1;
          }
       }
       if(my_rank == 1)
@@ -142,14 +154,23 @@ void get_Gg_print(int ite_num, int n, int start, int end, int stride)
       {
          PRTTstr* prttn;
          PRTTstr* prtt1;
-         prtt1 = PRTT(1, 0, s);
+         double times[10];
+         for(int k = 0; k < 10; ++k)
+         {
+            prtt1 = PRTT(1, 0, s);
+            if(my_rank == 1)
+            {
+               times[k] = prtt1->time;
+               delete prtt1;
+            }
+         }
          prttn = PRTT(n, 0, s); 
          if(my_rank == 1)
          {
-            double oplusd = (double)(prttn->time - prtt1->time)/(n-1);
+            double prtt1_time = getMed(times, 10);
+            double oplusd = (double)(prttn->time - prtt1_time)/(n-1);
             values[i] = oplusd;
             delete prttn;
-            delete prtt1;
          }
       }
       if(my_rank == 1)
