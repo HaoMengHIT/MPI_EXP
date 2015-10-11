@@ -26,11 +26,13 @@ class PRTTstr
 static void my_wait(double d)
 {
    double ts = MPI_Wtime();
-   double targettime, time;
-   targettime = d+ts;
+   typedef unsigned long long LARGEINT;
+   LARGEINT  targettime, time;
+   targettime = (LARGEINT)((d+ts)*1e9);
    do
    {
-      time = MPI_Wtime();
+      ts = MPI_Wtime();
+      time = (LARGEINT)(ts*1e9);
    } while(time < targettime);
 
 }
@@ -127,7 +129,7 @@ void get_Os_print(int ite_num, int n, int start, int end, int stride)
          }
       }
       if(my_rank == 1)
-         cout << s << "\t"  << getMed(values, ite_num) <<endl;
+         cout << s << "\t"  << fixed << setprecision(15) <<  getMed(values, ite_num) <<endl;
    }
 
 }
@@ -151,7 +153,7 @@ void get_Gg_print(int ite_num, int n, int start, int end, int stride)
          }
       }
       if(my_rank == 1)
-         cout << s << "\t"  << getMed(values, ite_num) <<endl;
+         cout << s << "\t"  << fixed << setprecision(15) << getMed(values, ite_num) <<endl;
    }
 
 }
