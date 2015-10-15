@@ -26,13 +26,11 @@ class PRTTstr
 static void my_wait(double d)
 {
    double ts = MPI_Wtime();
-   typedef unsigned long long LARGEINT;
-   LARGEINT  targettime, time;
-   targettime = (LARGEINT)((d+ts)*1e9);
+   double time;
+   double targettime = d+ts;
    do
    {
-      ts = MPI_Wtime();
-      time = (LARGEINT)(ts*1e9);
+      time = MPI_Wtime();
    } while(time < targettime);
 
 }
@@ -106,18 +104,18 @@ double getMed(double values[], int size)
 }
 
 
-void get_Os_print(int ite_num, int n, int start, int end, int stride)
+void get_Os_print(int ite_num, int n, int start, int end)
 {
    double d;
-   for(int s = start;s < end; s += stride)
+   for(int s = start;s < end; s+=(s < 1e4?128:(s < 1e5?1024:(s < 1e6?1024*10:s < 1e7?1024*100:1024*100))))
    {
       double values[ite_num];
       for(int i = 0;i < ite_num; ++i)
       {
          PRTTstr* prttn;
          PRTTstr* prtt1;
-         double times[10];
-         for(int k = 0; k < 10; ++k)
+         double times[100];
+         for(int k = 0; k < 100; ++k)
          {
             prtt1 = PRTT(1, 0, s);
             if(my_rank == 1)
@@ -129,7 +127,7 @@ void get_Os_print(int ite_num, int n, int start, int end, int stride)
          double prtt1_time;
          if(my_rank == 1)
          {
-            prtt1_time = getMed(times, 10);
+            prtt1_time = getMed(times, 100);
             d = 2*prtt1_time+0.0001;
          }
          prttn = PRTT(n, d, s); 
@@ -145,17 +143,17 @@ void get_Os_print(int ite_num, int n, int start, int end, int stride)
    }
 
 }
-void get_Gg_print(int ite_num, int n, int start, int end, int stride)
+void get_Gg_print(int ite_num, int n, int start, int end)
 {
-   for(int s = start;s < end; s += stride)
+   for(int s = start;s < end; s+=(s < 1e4?128:(s < 1e5?1024:(s < 1e6?1024*10:s < 1e7?1024*100:1024*100))))
    {
       double values[ite_num];
       for(int i = 0;i < ite_num; ++i)
       {
          PRTTstr* prttn;
          PRTTstr* prtt1;
-         double times[10];
-         for(int k = 0; k < 10; ++k)
+         double times[100];
+         for(int k = 0; k < 100; ++k)
          {
             prtt1 = PRTT(1, 0, s);
             if(my_rank == 1)
@@ -167,7 +165,7 @@ void get_Gg_print(int ite_num, int n, int start, int end, int stride)
          prttn = PRTT(n, 0, s); 
          if(my_rank == 1)
          {
-            double prtt1_time = getMed(times, 10);
+            double prtt1_time = getMed(times, 100);
             double oplusd = (double)(prttn->time - prtt1_time)/(n-1);
             values[i] = oplusd;
             delete prttn;
@@ -180,30 +178,20 @@ void get_Gg_print(int ite_num, int n, int start, int end, int stride)
 }
 
 const int pac_num = 10; //The count of packets sent from  client to server.
-const int ite_num = 100; //The count of the test about every data size.
+const int ite_num = 20; //The count of the test about every data size.
 
 void get_Os()
 {
    if(my_rank == 1)
       cout << "Os" << endl;
-   get_Os_print(ite_num, pac_num, 1, 2, 1);
-   get_Os_print(ite_num, pac_num, 10, 200, 10);
-   get_Os_print(ite_num, pac_num, 200, 10000, 100);
-   get_Os_print(ite_num, pac_num, 10000,100000,1000);
-   get_Os_print(ite_num, pac_num, 100000,1000000,10000);
-   get_Os_print(ite_num, pac_num, 1000000,10000000,100000);
+   get_Os_print(ite_num, pac_num, 1, 1e7);
 }
 
 void get_Gg()
 {
    if(my_rank == 1)
       cout << "Gg" << endl;
-   get_Gg_print(ite_num, pac_num, 1, 2, 1);
-   get_Gg_print(ite_num, pac_num, 10, 200, 10);
-   get_Gg_print(ite_num, pac_num, 200, 10000, 100);
-   get_Gg_print(ite_num, pac_num, 10000,100000,1000);
-   get_Gg_print(ite_num, pac_num, 100000,1000000,10000);
-   get_Gg_print(ite_num, pac_num, 1000000,10000000,100000);
+   get_Gg_print(ite_num, pac_num, 1, 1e7);
 }
 
 int main(int argc, char* argv[])

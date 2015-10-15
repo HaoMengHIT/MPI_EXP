@@ -7,11 +7,13 @@ ADD_EXECUTABLE(mpi_test src/mpi_hello.cpp)
 ADD_EXECUTABLE(mpi_getg src/mpi_getg.cpp)
 ADD_EXECUTABLE(mpi_bcast src/mpi_bcast.cpp)
 ADD_EXECUTABLE(mpi_RTTtest src/mpi_RTTtest.cpp)
+ADD_EXECUTABLE(mpi_send_recv src/mpi_send_recv.cpp)
 
 TARGET_LINK_LIBRARIES(mpi_test ${MPI_LIBRARIES})
 TARGET_LINK_LIBRARIES(mpi_getg ${MPI_LIBRARIES})
 TARGET_LINK_LIBRARIES(mpi_bcast ${MPI_LIBRARIES})
 TARGET_LINK_LIBRARIES(mpi_RTTtest ${MPI_LIBRARIES})
+TARGET_LINK_LIBRARIES(mpi_send_recv ${MPI_LIBRARIES})
 
 IF(MPI_COMPILE_FALGS)
    SET_TARGET_PROPERTIES(mpi_hello PROPERTIES COMPILE_FLAGS "${MPI_COMPILE_FLAGS}")
