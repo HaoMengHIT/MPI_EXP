@@ -19,10 +19,12 @@ int main(int argc ,char* argv[])
 	int size = atoi(argv[2]);
 
 
+	char* sending = new char[size];
 	if(my_rank == 0)
 	{
+      for(int i = 0; i < size; ++i)
+         sending[i] = 'a';
 
-		char* sending = new char[size];
 		double calcu_time;
 		MPI_Barrier(MPI_COMM_WORLD);
 		calcu_time = -MPI_Wtime();
@@ -34,11 +36,11 @@ int main(int argc ,char* argv[])
 		calcu_time += MPI_Wtime();
 
 		cout << sizeof(char)*size << "\t" << fixed << setprecision(15) << calcu_time/(double)parNum << endl;
-		delete[] sending;
 	}
 	else
 	{
-		char* sending = new char[size];
+      for(int i = 0; i < size; ++i)
+         sending[i] = 'a';
 		double calcu_time;
 		MPI_Barrier(MPI_COMM_WORLD);
 		calcu_time = -MPI_Wtime();
@@ -49,9 +51,8 @@ int main(int argc ,char* argv[])
 		}
 		calcu_time += MPI_Wtime();
 
-		delete[] sending;
-
 	}
+	delete[] sending;
 	MPI_Finalize();
 	return 0;
 }
