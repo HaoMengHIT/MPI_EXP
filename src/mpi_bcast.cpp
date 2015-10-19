@@ -6,24 +6,9 @@
 #include <unistd.h>
 #include <time.h>
 #include <iomanip>
+#include "calfunc.h"
 using namespace std;
 
-double getMed(double values[], int size)
-{
-   int x,y;
-   double handle;
-
-   for(x = 0; x < size; ++x)
-      for(y = 0; y < size; ++y)
-         if(values[x] > values[y])
-         {
-            handle = values[x];
-            values[x] = values[y];
-            values[y] = handle;
-         }
-
-   return values[(size+1)/2];
-}
 int main(int argc ,char* argv[])
 {
    if(argc != 3)

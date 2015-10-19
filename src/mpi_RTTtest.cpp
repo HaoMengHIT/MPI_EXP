@@ -6,6 +6,7 @@
 #include <iomanip>
 #include <time.h>
 #include <math.h>
+#include "calfunc.h"
 
 using namespace std;
 
@@ -85,23 +86,6 @@ PRTTstr* PRTT(int n, double d, int s)
    return NULL;
 }
 
-/* Get median of all mesurements */
-double getMed(double values[], int size)
-{
-   /* Bubble-sort data */
-   int x,y;
-   double holder;
-
-   for(x = 0; x < size; x++)
-      for(y = x; y < size; y++)
-         if(values[x] > values[y])
-         {
-            holder = values[x];
-            values[x] = values[y];
-            values[y] = holder;
-         }
-   return values[(size+1)/2];
-}
 
 
 void get_Os_print(int ite_num, int n, int start, int end)
