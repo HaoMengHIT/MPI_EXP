@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <iomanip>
+#include <unistd.h>
 #include "calfunc.h"
 
 using namespace std;
@@ -12,7 +13,7 @@ double *create_rand_nums(int num_elements)
    double* rand_nums = new double[num_elements];
    for( int i = 0;i < num_elements;++i)
    {
-      rand_nums[i] = (double)(rand()%RAND_MAX);
+      rand_nums[i] = (double)(rand() / (double)RAND_MAX);
    }
    return rand_nums;
 }
@@ -38,7 +39,7 @@ int main(int argc, char* argv[])
    for(int i = 0;i < parNum; ++i)
    {
       double total_time = 0.0;
-      srand(time(NULL));
+      srand((unsigned)(time(NULL) + my_rank + i));
 
       double* local_nums = create_rand_nums(size);
       double* total_nums = create_rand_nums(size);
