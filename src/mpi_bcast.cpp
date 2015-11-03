@@ -34,10 +34,12 @@ int main(int argc ,char* argv[])
       char* data = new char[size];
 
       MPI_Barrier(MPI_COMM_WORLD);
-      total_mpi_bcast_time -= MPI_Wtime();
+      double tmp = MPI_Wtime();
+      double start_time = MPI_Wtime();
       MPI_Bcast(data, size,MPI_CHAR,0,MPI_COMM_WORLD);
       MPI_Barrier(MPI_COMM_WORLD);
-      total_mpi_bcast_time += MPI_Wtime();
+      double end_time = MPI_Wtime();
+      total_mpi_bcast_time = end_time - start_time - (start_time - tmp);
 
       values[i] = total_mpi_bcast_time;
 

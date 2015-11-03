@@ -49,11 +49,13 @@ int main(int argc, char* argv[])
       char* sub_rand_chars = create_rand_chars(size);
 
       MPI_Barrier(MPI_COMM_WORLD);
-      total_time -= MPI_Wtime();
+      double tmp = MPI_Wtime();
+      double start_time = MPI_Wtime();
       MPI_Gather(sub_rand_chars, size, MPI_CHAR, rand_chars, size, MPI_CHAR, 0, MPI_COMM_WORLD);
 
       MPI_Barrier(MPI_COMM_WORLD);
-      total_time += MPI_Wtime();
+      double end_time = MPI_Wtime();
+      total_time = end_time - start_time - (start_time - tmp);
 
       values[i] = total_time;
 

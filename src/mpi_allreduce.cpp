@@ -13,10 +13,11 @@ double *create_rand_nums(int num_elements)
    double* rand_nums = new double[num_elements];
    for( int i = 0;i < num_elements;++i)
    {
-      rand_nums[i] = (double)(rand() / (double)RAND_MAX)*10;
+      rand_nums[i] = (double)(rand() / (double)RAND_MAX);
    }
    return rand_nums;
 }
+
 int main(int argc, char* argv[])
 {
    if(argc != 4)
@@ -56,7 +57,7 @@ int main(int argc, char* argv[])
       MPI_Barrier(MPI_COMM_WORLD);
       double tmp = MPI_Wtime();
       double start_time = MPI_Wtime();
-      MPI_Reduce(local_nums, total_nums, size, MPI_DOUBLE, op,0,MPI_COMM_WORLD);
+      MPI_Allreduce(local_nums, total_nums, size, MPI_DOUBLE, op,MPI_COMM_WORLD);
       MPI_Barrier(MPI_COMM_WORLD);
       double end_time = MPI_Wtime();
       total_time = end_time - start_time - (start_time - tmp);
